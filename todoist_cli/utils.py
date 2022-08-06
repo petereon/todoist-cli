@@ -13,6 +13,13 @@ priority_colors = {
     1: "P4"
 }
 
+priority_to_num = {
+    "P1": 4,
+    "P2": 3,
+    "P3": 2,
+    "P4": 1,
+}
+
 label_format = {
     30 : "[deep_pink4]{}[/deep_pink4]",
     31 : "[red1]{}[/red1]",
@@ -77,7 +84,7 @@ def format_tasks(tasks, labels, orderings: List[str]=None) -> ConsoleRenderable:
     
     
     for task in tasks:
-        table.add_row(preprocess_datetime(task), task.content, priority_colors[task.priority], process_labels(label_ids=task.label_ids, labels=labels))
+        table.add_row(preprocess_datetime(task), task.content, priority_colors[task.priority], ", ".join(process_labels(label_ids=task.label_ids, labels=labels)))
     
     return table
 
@@ -98,5 +105,28 @@ def process_labels(label_ids: List[int], labels):
         if label.id in label_ids:
             labels_repr.append(label_format[label.color].format('@'+label.name))
             
-    return ', '.join(labels_repr)
-    
+    return labels_repr
+
+def preprocess_task_metadata(labels, labels_response, project, projects_response, priority):
+    # TODO: include datetime handling
+    return (select_label_ids(labels, labels_response), 
+            select_project_id(project, projects_response), 
+            priority_to_num.get(priority, None))
+
+def select_label_ids(labels, labels_response):
+    label_ids = []
+    # TODO: handle scenario when label does not exist
+    # TODO: include interactive label selector
+    for label in labels_response:
+        if label.name in labels: 
+            label_ids.append(label.id)
+    return label_ids
+            
+def select_project_id(project, projects_response):
+    project_id = None
+    # TODO: handle scenario when project does not exist
+    # TODO: include interactive project selector
+    for project_ in projects_response:
+        if project == project_.name:
+            project_id = project_.id
+    return project_id
