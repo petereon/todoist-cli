@@ -72,7 +72,7 @@ def format_tasks(tasks, labels, orderings: List[str]=None) -> ConsoleRenderable:
             if ordering in ['p', 'P', 'Priority', 'priority']:
                 tasks = sorted(tasks, key=lambda task: task.priority, reverse=True)
             if ordering in ['date', 'Date' , 'time', 'Time', 'd', 'D', 't', 'T']:
-                tasks = sorted(tasks, key=lambda task: task.due.datetime)
+                tasks = sorted(tasks, key=lambda task: task.due.datetime if task.due and task.due.datetime else '9999-99-99')
     
     
     for task in tasks:
@@ -81,13 +81,15 @@ def format_tasks(tasks, labels, orderings: List[str]=None) -> ConsoleRenderable:
     return table
 
 def preprocess_datetime(task):
-    tz = pytz.timezone(task.due.timezone)
-    task_datetime = tz.fromutc(datetime.strptime(task.due.datetime, '%Y-%m-%dT%H:%M:%SZ'))
-    formatted_datetime = datetime.strftime(task_datetime, "%a %H:%M:%S")
-    if task_datetime < datetime.now(tz=tz):
-        formatted_datetime = f'[red1]{formatted_datetime}[/red1]'
-        
-    return formatted_datetime
+    if task.due and task.due.datetime:
+        tz = pytz.timezone(task.due.timezone)
+        task_datetime = tz.fromutc(datetime.strptime(task.due.datetime, '%Y-%m-%dT%H:%M:%SZ'))
+        formatted_datetime = datetime.strftime(task_datetime, "%Y-%m-%d (%a) %H:%M:%S")
+        if task_datetime < datetime.now(tz=tz):
+            formatted_datetime = f'[red1]{formatted_datetime}[/red1]'
+            
+        return formatted_datetime
+    return ""
 
 def process_labels(label_ids: List[int], labels):
     labels_repr = []
