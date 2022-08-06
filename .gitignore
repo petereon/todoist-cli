@@ -1,4 +1,5 @@
 *.build/
 *.dist/
 .venv/
+dist/
 __pycache__
