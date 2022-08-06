@@ -17,7 +17,9 @@ def list_tasks(filter: Optional[str] = typer.Option(None), order: Optional[List[
     console.print(renderable)
 
 @app.command()
-def create_task():
+def create_task(content: str = typer.Argument('new task'), 
+                label: Optional[List[str]] = typer.Option(None), 
+                project: Optional[str] = typer.Option(None)):
     pass
 
 if __name__ == "__main__":

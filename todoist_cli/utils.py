@@ -4,6 +4,7 @@ from rich.panel import Panel
 from rich.console import ConsoleRenderable
 from datetime import datetime, timezone
 import pytz
+import cutie
 
 priority_colors = {
     4: "[bold red1]P1[/bold red1]",
@@ -45,8 +46,8 @@ def get_token():
     home = os.getenv('HOME')
     path = f'{home}/.todoist_token'
     if not os.getenv("TODOIST_API_TOKEN") and not os.path.exists(path):
-        token = typer.prompt('Todoist API token', hide_input=True)
-        if typer.prompt('Save to file? (Y/n)').upper() == 'Y':
+        token = cutie.secure_input('Todoist API token:')
+        if cutie.prompt_yes_or_no('Save to file?'):
             
             print(f'Saving the token to {path}')
             f = open(path, "w")
