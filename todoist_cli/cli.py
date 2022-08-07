@@ -20,7 +20,8 @@ def cli():
     app()
 
 @app.command(name="list")
-def list_tasks(filter: Optional[str] = typer.Option(None), order: Optional[List[str]] = typer.Option(None)):
+def list_tasks(filter: Optional[str] = typer.Option(None, '--filter' ,'-f', help='Filter for tasks e.g. \'(overdue|today)\''), 
+               order: Optional[List[str]] = typer.Option(None, '--order' ,'-o', help='Ordering(s) for the tasks, accepted values are `time` or `t` and `priority` or `p`')):
     global api
     tasks_response = api.get_tasks(filter=filter)
     labels_response = api.get_labels()
@@ -28,12 +29,12 @@ def list_tasks(filter: Optional[str] = typer.Option(None), order: Optional[List[
     console.print(renderable)
 
 @app.command(name="new-task")
-def new_task(content: str = typer.Argument('new task'),
-             description: Optional[str] = typer.Option(None),
-             priority: Optional[str] = typer.Option(None),
-             label: Optional[List[str]] = typer.Option(None), 
-             project: Optional[str] = typer.Option(None),
-             date: Optional[str] = typer.Option(None)):
+def new_task(content: str = typer.Argument('New task', help='Text of the task'),
+             description: Optional[str] = typer.Option(None, '--desc', '--description' , "-s", help="Long description for the task"),
+             priority: Optional[str] = typer.Option(None, '--prio', '--priority', '-p', help="Priority for the task, accepted values are `P1`, `P2`, `P3` and `P4`"),
+             label: Optional[List[str]] = typer.Option(None, '--label', '-l', help='Label(s) for the task'), 
+             project: Optional[str] = typer.Option(None, '--project' ,'-r', help='Project that task should belong under, default is Inbox'),
+             date: Optional[str] = typer.Option(None, '--date', '-d', help='Date time for tasks (accepts all the date formats allowed in Todoist interface in plain text)')):
     global api
     labels_response = api.get_labels()
     projects_response = api.get_projects()
