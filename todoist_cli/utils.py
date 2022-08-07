@@ -5,6 +5,7 @@ from rich.console import ConsoleRenderable
 from datetime import datetime, timezone
 import pytz
 import cutie
+from dateutil.parser import parse as date_parse
 
 priority_colors = {
     4: "[bold red1]P1[/bold red1]",
@@ -68,7 +69,7 @@ def get_token():
     
     return token
 
-def format_tasks(tasks, labels, orderings: List[str]=None) -> ConsoleRenderable:
+def render_tasks(tasks, labels, orderings: List[str]=None) -> ConsoleRenderable:
     table = Table(title=None, box=None, header_style="bold green", title_justify='left', show_header=False)
     table.add_column("")
     table.add_column("", style='bold bright_white')
@@ -84,11 +85,11 @@ def format_tasks(tasks, labels, orderings: List[str]=None) -> ConsoleRenderable:
     
     
     for task in tasks:
-        table.add_row(preprocess_datetime(task), task.content, priority_colors[task.priority], ", ".join(process_labels(label_ids=task.label_ids, labels=labels)))
+        table.add_row(render_datetime(task), task.content, priority_colors[task.priority], ", ".join(render_labels(label_ids=task.label_ids, labels=labels)))
     
     return table
 
-def preprocess_datetime(task):
+def render_datetime(task):
     if task.due and task.due.datetime:
         tz = pytz.timezone(task.due.timezone)
         task_datetime = tz.fromutc(datetime.strptime(task.due.datetime, '%Y-%m-%dT%H:%M:%SZ'))
@@ -99,7 +100,7 @@ def preprocess_datetime(task):
         return formatted_datetime
     return ""
 
-def process_labels(label_ids: List[int], labels):
+def render_labels(label_ids: List[int], labels):
     labels_repr = []
     for label in labels: 
         if label.id in label_ids:
@@ -107,11 +108,12 @@ def process_labels(label_ids: List[int], labels):
             
     return labels_repr
 
-def preprocess_task_metadata(labels, labels_response, project, projects_response, priority):
+def preprocess_task_metadata(labels, labels_response, project, projects_response, priority, date):
     # TODO: include datetime handling
     return (select_label_ids(labels, labels_response), 
             select_project_id(project, projects_response), 
-            priority_to_num.get(priority, None))
+            priority_to_num.get(priority, None),
+            date_parse(date))
 
 def select_label_ids(labels, labels_response):
     label_ids = []
