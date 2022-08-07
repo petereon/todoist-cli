@@ -5,7 +5,9 @@ import typer
 from rich.console import Console
 from todoist_api_python.api import TodoistAPI
 
-from todoist_cli.utils import render_tasks, get_token, preprocess_task_metadata
+from todoist_cli.utils import get_token
+from todoist_cli.list_tasks import render_tasks
+from todoist_cli.new_task import preprocess_task_metadata
 
 app = typer.Typer(no_args_is_help=True, short_help=True)
 console = Console()
