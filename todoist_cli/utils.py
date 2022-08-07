@@ -5,7 +5,6 @@ from rich.console import ConsoleRenderable
 from datetime import datetime, timezone
 import pytz
 import cutie
-from dateutil.parser import parse as date_parse
 
 priority_colors = {
     4: "[bold red1]P1[/bold red1]",
@@ -108,12 +107,10 @@ def render_labels(label_ids: List[int], labels):
             
     return labels_repr
 
-def preprocess_task_metadata(labels, labels_response, project, projects_response, priority, date):
-    # TODO: include datetime handling
+def preprocess_task_metadata(labels, labels_response, project, projects_response, priority):
     return (select_label_ids(labels, labels_response), 
             select_project_id(project, projects_response), 
-            priority_to_num.get(priority, None),
-            date_parse(date))
+            priority_to_num.get(priority, None))
 
 def select_label_ids(labels, labels_response):
     label_ids = []

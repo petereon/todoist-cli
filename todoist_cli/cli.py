@@ -39,12 +39,12 @@ def new_task(content: str = typer.Argument('new task'),
                                              labels_response=labels_response, 
                                              project=project, 
                                              projects_response=projects_response, 
-                                             priority=priority, 
-                                             date=date)
+                                             priority=priority)
     
     api.add_task(content=content, 
                  description=description, 
                  label_ids=task_metadata[0], 
                  project_id=task_metadata[1], 
-                 priority=task_metadata[2])
+                 priority=task_metadata[2],
+                 due_string=date)
 
