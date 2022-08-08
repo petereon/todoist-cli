@@ -34,7 +34,8 @@ def new_task(content: str = typer.Argument('New task', help='Text of the task'),
              priority: Optional[str] = typer.Option(None, '--prio', '--priority', '-p', help="Priority for the task, accepted values are `P1`, `P2`, `P3` and `P4`"),
              label: Optional[List[str]] = typer.Option(None, '--label', '-l', help='Label(s) for the task'), 
              project: Optional[str] = typer.Option(None, '--project' ,'-r', help='Project that task should belong under, default is Inbox'),
-             date: Optional[str] = typer.Option(None, '--date', '-d', help='Date time for tasks (accepts all the date formats allowed in Todoist interface in plain text)')):
+             date: Optional[str] = typer.Option(None, '--date', '-d', help='Date time for tasks (accepts all the date formats allowed in Todoist interface in plain text)'),
+             interactive: Optional[bool] = typer.Option(False, "-i", "--interactive/--no-interactive" , is_flag=True)):
     global api
     labels_response = api.get_labels()
     projects_response = api.get_projects()
@@ -42,7 +43,8 @@ def new_task(content: str = typer.Argument('New task', help='Text of the task'),
                                              labels_response=labels_response, 
                                              project=project, 
                                              projects_response=projects_response, 
-                                             priority=priority)
+                                             priority=priority,
+                                             interactive=interactive)
     
     api.add_task(content=content, 
                  description=description, 
