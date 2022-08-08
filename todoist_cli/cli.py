@@ -28,7 +28,7 @@ def list_tasks(filter: Optional[str] = typer.Option(None, '--filter' ,'-f', help
     renderable = render_tasks(tasks=tasks_response, labels=labels_response, orderings=order)
     console.print(renderable)
 
-@app.command(name="new-task")
+@app.command(name="new")
 def new_task(content: str = typer.Argument('New task', help='Content of the task'),
              description: Optional[str] = typer.Option(None, '--desc', '--description' , "-s", help="Long description for the task"),
              priority: Optional[str] = typer.Option(None, '--prio', '--priority', '-p', help="Priority for the task, accepted values are `P1`, `P2`, `P3` and `P4`"),
