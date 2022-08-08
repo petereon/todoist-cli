@@ -29,7 +29,7 @@ def list_tasks(filter: Optional[str] = typer.Option(None, '--filter' ,'-f', help
     console.print(renderable)
 
 @app.command(name="new-task")
-def new_task(content: str = typer.Argument('New task', help='Text of the task'),
+def new_task(content: str = typer.Argument('New task', help='Content of the task'),
              description: Optional[str] = typer.Option(None, '--desc', '--description' , "-s", help="Long description for the task"),
              priority: Optional[str] = typer.Option(None, '--prio', '--priority', '-p', help="Priority for the task, accepted values are `P1`, `P2`, `P3` and `P4`"),
              label: Optional[List[str]] = typer.Option(None, '--label', '-l', help='Label(s) for the task'), 
@@ -39,6 +39,16 @@ def new_task(content: str = typer.Argument('New task', help='Text of the task'),
     global api
     labels_response = api.get_labels()
     projects_response = api.get_projects()
+    
+    if interactive and not content:
+        content = typer.prompt('Provide content for the task')
+        
+    if interactive and not description:
+        description = typer.prompt('Provide description for the task')
+    
+    if interactive and not date:
+        date = typer.prompt('Provide date (any datestring that Todoist handles works)')
+    
     task_metadata = preprocess_task_metadata(labels=label, 
                                              labels_response=labels_response, 
                                              project=project, 
