@@ -19,6 +19,7 @@ ordered-set = "^4.1.0"
 Nuitka = "^1.0.1"
 ward = "^0.66.1-beta.0"
 pynguin = "^0.25.2"
+black = "^22.6.0"
 
 [tool.poetry.scripts]
 todoist-cli = "todoist_cli:cli"

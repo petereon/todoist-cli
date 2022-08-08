@@ -35,7 +35,7 @@ def test_case_3():
         2: "[blue1]P3[/blue1]",
         1: "P4",
     }
-    assert list_tasks.label_format == {
+    assert list_tasks.color_format == {
         30: "[deep_pink4]{}[/deep_pink4]",
         31: "[red1]{}[/red1]",
         32: "[orange1]{}[/orange1]",
@@ -95,7 +95,7 @@ def test_case_4():
         2: "[blue1]P3[/blue1]",
         1: "P4",
     }
-    assert list_tasks.label_format == {
+    assert list_tasks.color_format == {
         30: "[deep_pink4]{}[/deep_pink4]",
         31: "[red1]{}[/red1]",
         32: "[orange1]{}[/orange1]",
@@ -129,7 +129,7 @@ def test_case_5():
         2: "[blue1]P3[/blue1]",
         1: "P4",
     }
-    assert list_tasks.label_format == {
+    assert list_tasks.color_format == {
         30: "[deep_pink4]{}[/deep_pink4]",
         31: "[red1]{}[/red1]",
         32: "[orange1]{}[/orange1]",
@@ -196,7 +196,7 @@ def test_case_7():
         2: "[blue1]P3[/blue1]",
         1: "P4",
     }
-    assert list_tasks.label_format == {
+    assert list_tasks.color_format == {
         30: "[deep_pink4]{}[/deep_pink4]",
         31: "[red1]{}[/red1]",
         32: "[orange1]{}[/orange1]",

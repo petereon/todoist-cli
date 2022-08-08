@@ -626,7 +626,7 @@ python-versions = "!=3.0.*,!=3.1.*,!=3.2.*,!=3.3.*,!=3.4.*,>=2.7"
 [metadata]
 lock-version = "1.1"
 python-versions = ">=3.10,<3.11"
-content-hash = "5ab44e1dd883a21de69503cc21dd6c6d47026dcbf411154ee61b3cec86317b7d"
+content-hash = "055b27acf2e111db2ed4a9873fe0634133beb3105f070afac20921db982cce51"
 
 [metadata.files]
 astmonkey = [
