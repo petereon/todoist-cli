@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "todoist-cli"
-version = "0.1.3"
+version = "0.1.4"
 description = "A CLI tool for Todoist"
 authors = ["Peter Vyboch <pvyboch1@gmail.com>"]
 license = "MIT"
