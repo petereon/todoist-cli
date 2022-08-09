@@ -46,7 +46,7 @@ def list_tasks(
     ),
 ):
     global api
-    with console.status('Fetching info from API...'):
+    with console.status("Fetching info from API..."):
         tasks_response = api.get_tasks(filter=filter)
         labels_response = api.get_labels()
         projects_response = api.get_projects()
@@ -100,7 +100,7 @@ def new_task(
     ),
 ):
     global api
-    with console.status('Fetching info from API...'):
+    with console.status("Fetching info from API..."):
         labels_response = api.get_labels()
         projects_response = api.get_projects()
 
@@ -108,10 +108,12 @@ def new_task(
         content = typer.prompt("Provide content for the task")
 
     if interactive and not description:
-        description = typer.prompt("Provide description for the task", default='')
+        description = typer.prompt("Provide description for the task", default="")
 
     if interactive and not date:
-        date = typer.prompt("Provide date (any datestring that Todoist handles works)", default='')
+        date = typer.prompt(
+            "Provide date (any datestring that Todoist handles works)", default=""
+        )
 
     task_metadata = preprocess_task_metadata(
         labels=label,
@@ -121,7 +123,7 @@ def new_task(
         priority=priority,
         interactive=interactive,
     )
-    with console.status('Creating task...'):
+    with console.status("Creating task..."):
         api.add_task(
             content=content,
             description=description,
@@ -146,18 +148,18 @@ def complete_task(
     global api
     if not task_id:
         if interactive:
-            with console.status('Fetching info from API...'):
-                tasks_response = api.get_tasks(filter='(today|overdue)')
+            with console.status("Fetching info from API..."):
+                tasks_response = api.get_tasks(filter="(today|overdue)")
                 labels_response = api.get_labels()
                 projects_response = api.get_projects()
             task_id = select_task(
                 tasks=tasks_response,
                 labels=labels_response,
                 projects=projects_response,
-                console=console
+                console=console,
             )
-            
+
         else:
-            raise Exception('No task ID provided')
-    with console.status('Completing task...'):
+            raise Exception("No task ID provided")
+    with console.status("Completing task..."):
         api.close_task(task_id=task_id)
