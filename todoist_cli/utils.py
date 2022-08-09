@@ -27,3 +27,13 @@ def get_token():
         token = os.getenv("TODOIST_API_TOKEN") or read_and_close(open(path, "r"))
 
     return token
+
+def mayber_start_spinner(message, interactive, console):
+    status_context = console.status('Creating task...')
+    if interactive:
+        status_context.__enter__()
+    return status_context
+
+def maybe_end_spinner(status_context, interactive):
+    if interactive:
+        status_context.__exit__()

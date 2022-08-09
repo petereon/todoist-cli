@@ -5,7 +5,7 @@ import typer
 from rich.console import Console
 from todoist_api_python.api import TodoistAPI
 
-from todoist_cli.utils import get_token
+from todoist_cli.utils import get_token, maybe_end_spinner, mayber_start_spinner
 from todoist_cli.list_tasks import render_tasks
 from todoist_cli.new_task import preprocess_task_metadata
 
@@ -39,11 +39,23 @@ def list_tasks(
         is_flag=True,
         help="Will display only short version of table (date, task content, priority and labels)",
     ),
+    interactive: Optional[bool] = typer.Option(
+        True,
+        "-i/-n",
+        "--interactive/--no-interactive",
+        is_flag=True,
+        help="Interactive mode",
+    ),
 ):
     global api
+    status_context = console.status('Fetching info from API...')
+    if interactive:
+        status_context.__enter__()
     tasks_response = api.get_tasks(filter=filter)
     labels_response = api.get_labels()
     projects_response = api.get_projects()
+    if interactive:
+        status_context.__exit__(None,None,None)
     renderable = render_tasks(
         tasks=tasks_response,
         labels=labels_response,
@@ -83,16 +95,18 @@ def new_task(
         help="Date time for tasks (accepts all the date formats allowed in Todoist interface in plain text)",
     ),
     interactive: Optional[bool] = typer.Option(
-        False,
-        "-i",
+        True,
+        "-i/-n",
         "--interactive/--no-interactive",
         is_flag=True,
         help="Interactive mode",
     ),
 ):
     global api
+    status_context = mayber_start_spinner('Fetching info from API...', interactive, console)
     labels_response = api.get_labels()
     projects_response = api.get_projects()
+    maybe_end_spinner(status_context, interactive)
 
     if interactive and not content:
         content = typer.prompt("Provide content for the task")
@@ -112,6 +126,7 @@ def new_task(
         interactive=interactive,
     )
 
+    status_context = mayber_start_spinner('Creating a task...', interactive, console)
     api.add_task(
         content=content,
         description=description,
@@ -120,3 +135,4 @@ def new_task(
         priority=task_metadata[2],
         due_string=date,
     )
+    maybe_end_spinner(status_context, interactive)
