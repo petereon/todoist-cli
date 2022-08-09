@@ -1,6 +1,13 @@
-# CLI
+# Todoist CLI
 
-A CLI tool listing and creating a Todoist tasks.
+## DISCLAIMER
+I made this for my personal need and did not bother to write **NO TESTS** yet, so **PLEASE BE CAREFUL** not to obliterate your Todoist in some way. Ideally create tasks with CLI specific label so that you can at least identify, filter and delete them somewhat efficiently would something
+unexpected or sad happen. This is **MIT licensed** and as such I will not be held liable for any damages resulting from use of this software.
+
+---
+
+
+A CLI tool scoped for listing, creating and completing Todoist tasks.
 
 **Usage**:
 
