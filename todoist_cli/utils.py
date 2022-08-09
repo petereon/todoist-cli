@@ -28,12 +28,14 @@ def get_token():
 
     return token
 
+
 def mayber_start_spinner(message, interactive, console):
-    status_context = console.status('Creating task...')
+    status_context = console.status("Creating task...")
     if interactive:
         status_context.__enter__()
     return status_context
 
+
 def maybe_end_spinner(status_context, interactive):
     if interactive:
-        status_context.__exit__(None,None,None)
+        status_context.__exit__(None, None, None)

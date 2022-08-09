@@ -13,12 +13,12 @@ pytz = "^2022.1"
 prompt-toolkit = "^3.0.30"
 cutie = "^0.2.2"
 ordered-set = "^4.1.0"
-typer-cli = "^0.0.12"
 typer = "0.3.2"
 
 [tool.poetry.dev-dependencies]
 Nuitka = "^1.0.1"
 ward = "^0.66.1-beta.0"
+typer-cli = "^0.0.12"
 
 [tool.poetry.scripts]
 todoist-cli = "todoist_cli:cli"

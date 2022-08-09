@@ -4,12 +4,17 @@ from typing import List, Optional
 import typer
 from rich.console import Console
 from todoist_api_python.api import TodoistAPI
+from todoist_cli.complete_task import select_task
 
 from todoist_cli.utils import get_token, maybe_end_spinner, mayber_start_spinner
 from todoist_cli.list_tasks import render_tasks
 from todoist_cli.new_task import preprocess_task_metadata
 
-app = typer.Typer(no_args_is_help=True, short_help=True, help="A CLI tool listing and creating a Todoist tasks.")
+app = typer.Typer(
+    no_args_is_help=True,
+    short_help=True,
+    help="A CLI tool listing and creating a Todoist tasks.",
+)
 console = Console()
 api = None
 
@@ -39,20 +44,12 @@ def list_tasks(
         is_flag=True,
         help="Will display only short version of table (date, task content, priority and labels)",
     ),
-    interactive: Optional[bool] = typer.Option(
-        True,
-        "-i/-n",
-        "--interactive/--no-interactive",
-        is_flag=True,
-        help="Interactive mode",
-    ),
 ):
     global api
-    status_context = mayber_start_spinner('Fetching info from API...', interactive, console)
-    tasks_response = api.get_tasks(filter=filter)
-    labels_response = api.get_labels()
-    projects_response = api.get_projects()
-    maybe_end_spinner(status_context, interactive)
+    with console.status('Fetching info from API...'):
+        tasks_response = api.get_tasks(filter=filter)
+        labels_response = api.get_labels()
+        projects_response = api.get_projects()
     renderable = render_tasks(
         tasks=tasks_response,
         labels=labels_response,
@@ -61,6 +58,9 @@ def list_tasks(
         short=short,
     )
     console.print(renderable)
+
+    with console.capture() as captured:
+        console.print(renderable)
 
 
 @app.command(name="new")
@@ -100,19 +100,18 @@ def new_task(
     ),
 ):
     global api
-    status_context = mayber_start_spinner('Fetching info from API...', interactive, console)
-    labels_response = api.get_labels()
-    projects_response = api.get_projects()
-    maybe_end_spinner(status_context, interactive)
+    with console.status('Fetching info from API...'):
+        labels_response = api.get_labels()
+        projects_response = api.get_projects()
 
     if interactive and not content:
         content = typer.prompt("Provide content for the task")
 
     if interactive and not description:
-        description = typer.prompt("Provide description for the task")
+        description = typer.prompt("Provide description for the task", default='')
 
     if interactive and not date:
-        date = typer.prompt("Provide date (any datestring that Todoist handles works)")
+        date = typer.prompt("Provide date (any datestring that Todoist handles works)", default='')
 
     task_metadata = preprocess_task_metadata(
         labels=label,
@@ -122,14 +121,43 @@ def new_task(
         priority=priority,
         interactive=interactive,
     )
+    with console.status('Creating task...'):
+        api.add_task(
+            content=content,
+            description=description,
+            label_ids=task_metadata[0],
+            project_id=task_metadata[1],
+            priority=task_metadata[2],
+            due_string=date,
+        )
 
-    status_context = mayber_start_spinner('Creating a task...', interactive, console)
-    api.add_task(
-        content=content,
-        description=description,
-        label_ids=task_metadata[0],
-        project_id=task_metadata[1],
-        priority=task_metadata[2],
-        due_string=date,
-    )
-    maybe_end_spinner(status_context, interactive)
+
+@app.command(name="complete")
+def complete_task(
+    task_id: Optional[int] = typer.Argument(None, help="ID of the task to complete"),
+    interactive: Optional[bool] = typer.Option(
+        True,
+        "-i/-n",
+        "--interactive/--no-interactive",
+        is_flag=True,
+        help="Interactive mode",
+    ),
+):
+    global api
+    if not task_id:
+        if interactive:
+            with console.status('Fetching info from API...'):
+                tasks_response = api.get_tasks(filter='(today|overdue)')
+                labels_response = api.get_labels()
+                projects_response = api.get_projects()
+            task_id = select_task(
+                tasks=tasks_response,
+                labels=labels_response,
+                projects=projects_response,
+                console=console
+            )
+            
+        else:
+            raise Exception('No task ID provided')
+    with console.status('Completing task...'):
+        api.close_task(task_id=task_id)
