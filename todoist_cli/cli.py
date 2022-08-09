@@ -48,14 +48,11 @@ def list_tasks(
     ),
 ):
     global api
-    status_context = console.status('Fetching info from API...')
-    if interactive:
-        status_context.__enter__()
+    status_context = mayber_start_spinner('Fetching info from API...', interactive, console)
     tasks_response = api.get_tasks(filter=filter)
     labels_response = api.get_labels()
     projects_response = api.get_projects()
-    if interactive:
-        status_context.__exit__(None,None,None)
+    maybe_end_spinner(status_context, interactive)
     renderable = render_tasks(
         tasks=tasks_response,
         labels=labels_response,
@@ -68,7 +65,7 @@ def list_tasks(
 
 @app.command(name="new")
 def new_task(
-    content: str = typer.Argument("New task", help="Content of the task"),
+    content: str = typer.Argument(None, help="Content of the task"),
     description: Optional[str] = typer.Option(
         None, "--desc", "--description", "-s", help="Long description for the task"
     ),
