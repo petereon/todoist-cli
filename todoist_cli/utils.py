@@ -36,4 +36,4 @@ def mayber_start_spinner(message, interactive, console):
 
 def maybe_end_spinner(status_context, interactive):
     if interactive:
-        status_context.__exit__()
+        status_context.__exit__(None,None,None)
