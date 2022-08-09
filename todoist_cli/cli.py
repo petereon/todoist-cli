@@ -9,7 +9,7 @@ from todoist_cli.utils import get_token, maybe_end_spinner, mayber_start_spinner
 from todoist_cli.list_tasks import render_tasks
 from todoist_cli.new_task import preprocess_task_metadata
 
-app = typer.Typer(no_args_is_help=True, short_help=True)
+app = typer.Typer(no_args_is_help=True, short_help=True, help="A CLI tool listing and creating a Todoist tasks.")
 console = Console()
 api = None
 

@@ -9,17 +9,16 @@ license = "MIT"
 python = ">=3.10,<3.11"
 rich = "^12.5.1"
 todoist-api-python = "^1.1.1"
-typer = "^0.6.1"
 pytz = "^2022.1"
 prompt-toolkit = "^3.0.30"
 cutie = "^0.2.2"
 ordered-set = "^4.1.0"
+typer-cli = "^0.0.12"
+typer = "0.3.2"
 
 [tool.poetry.dev-dependencies]
 Nuitka = "^1.0.1"
 ward = "^0.66.1-beta.0"
-pynguin = "^0.25.2"
-black = "^22.6.0"
 
 [tool.poetry.scripts]
 todoist-cli = "todoist_cli:cli"
