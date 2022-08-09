@@ -16,8 +16,26 @@ $ [OPTIONS] COMMAND [ARGS]...
 
 **Commands**:
 
+* `complete`
 * `list`
 * `new`
+
+## `complete`
+
+**Usage**:
+
+```console
+$ complete [OPTIONS] [TASK_ID]
+```
+
+**Arguments**:
+
+* `[TASK_ID]`: ID of the task to complete
+
+**Options**:
+
+* `-i, --interactive / -n, --no-interactive`: Interactive mode  [default: True]
+* `--help`: Show this message and exit.
 
 ## `list`
 
@@ -32,7 +50,6 @@ $ list [OPTIONS]
 * `-f, --filter TEXT`: Filter for tasks e.g. '(overdue|today)'
 * `-o, --order TEXT`: Ordering(s) for the tasks, accepted values are `time` or `t` and `priority` or `p`
 * `-s, --short`: Will display only short version of table (date, task content, priority and labels)  [default: False]
-* `-i, --interactive / -n, --no-interactive`: Interactive mode  [default: True]
 * `--help`: Show this message and exit.
 
 ## `new`
@@ -45,7 +62,7 @@ $ new [OPTIONS] [CONTENT]
 
 **Arguments**:
 
-* `[CONTENT]`: Content of the task  [default: New task]
+* `[CONTENT]`: Content of the task
 
 **Options**:
 
