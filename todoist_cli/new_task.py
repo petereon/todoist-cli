@@ -44,7 +44,7 @@ def find_project_id(project, projects_response, interactive):
     project_id = None
     if interactive and not project:
         print("\nSelect a project:")
-        all_projects = [None] + ["#" + project.name for project in projects_response]
+        all_projects = ["#" + project.name for project in projects_response]
         project = all_projects[cutie.select(all_projects)].replace("#", "")
     for project_ in projects_response:
         if project == project_.name:
