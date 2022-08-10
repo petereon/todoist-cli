@@ -13,4 +13,5 @@ def select_task(tasks, labels, projects, console):
     with console.capture() as captured:
         console.print(renderable)
     options = captured.get().split("\n")[:-1]
+
     return int(renderable.columns[0]._cells[cutie.select(options)])

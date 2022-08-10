@@ -6,7 +6,7 @@ from rich.console import Console
 from todoist_api_python.api import TodoistAPI
 from todoist_cli.complete_task import select_task
 
-from todoist_cli.utils import get_token, maybe_end_spinner, mayber_start_spinner
+from todoist_cli.utils import get_token
 from todoist_cli.list_tasks import render_tasks
 from todoist_cli.new_task import preprocess_task_metadata
 

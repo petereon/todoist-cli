@@ -24,7 +24,8 @@ def find_label_ids(labels, labels_response, interactive):
         print("\nSelect label(s):\n")
         all_labels = ["@" + label.name for label in labels_response]
         labels = [
-            all_labels[i].replace("@", "") for i in cutie.select_multiple(all_labels)
+            all_labels[i].replace("@", "")
+            for i in cutie.select_multiple(all_labels, hide_confirm=True)
         ]
     for label in labels_response:
         if label.name in labels:
