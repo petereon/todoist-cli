@@ -1,17 +1,22 @@
 from todoist_cli.list_tasks import render_tasks
-import cutie
+import pytui
 
 
 def select_task(tasks, labels, projects, console):
-    renderable = render_tasks(
+    rendered_tasks = render_tasks(
         tasks=tasks,
         labels=labels,
         projects=projects,
         orderings=["t"],
         short=False,
     )
-    with console.capture() as captured:
-        console.print(renderable)
-    options = captured.get().split("\n")[:-1]
+    
+    max_len_content = max([len(task[3]) for task in rendered_tasks])
+    task_strings = []
+    for task in rendered_tasks:
+        task[3] = task[3] + (max_len_content - len(task[3])) * ' '
+        task[2] = task[2] + (25 - len(task[2])) * ' '
+        task_repr = ' '.join(task)
+        task_strings.append(task_repr)
 
-    return int(renderable.columns[0]._cells[cutie.select(options)])
+    return int([task[0] for task in rendered_tasks][pytui.select(task_strings)])

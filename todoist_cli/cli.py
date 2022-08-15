@@ -7,7 +7,7 @@ from todoist_api_python.api import TodoistAPI
 from todoist_cli.complete_task import select_task
 
 from todoist_cli.utils import get_token
-from todoist_cli.list_tasks import render_tasks
+from todoist_cli.list_tasks import tabularize_tasks
 from todoist_cli.new_task import preprocess_task_metadata
 
 app = typer.Typer(
@@ -50,7 +50,7 @@ def list_tasks(
         tasks_response = api.get_tasks(filter=filter)
         labels_response = api.get_labels()
         projects_response = api.get_projects()
-    renderable = render_tasks(
+    renderable = tabularize_tasks(
         tasks=tasks_response,
         labels=labels_response,
         projects=projects_response,

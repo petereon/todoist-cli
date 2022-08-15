@@ -35,10 +35,7 @@ color_format = {
     49: "[tan]{}[/tan]",
 }
 
-
-def render_tasks(
-    tasks, labels, projects, orderings: List[str], short
-) -> ConsoleRenderable:
+def tabularize_tasks(tasks, labels, projects, orderings: List[str], short):
     table = Table(
         title=None,
         box=None,
@@ -53,7 +50,13 @@ def render_tasks(
     if not short:
         table.add_column("")
         table.add_column("")
+    for rendered_task in render_tasks(tasks, labels, projects, orderings, short):
+        table.add_row(*rendered_task)
+    return table
 
+def render_tasks(
+    tasks, labels, projects, orderings: List[str], short
+) -> ConsoleRenderable:
     if orderings:
         for ordering in reversed(orderings):
             if ordering in ["p", "P", "Priority", "priority"]:
@@ -65,19 +68,18 @@ def render_tasks(
                     if task.due and task.due.datetime
                     else "9999-99-99",
                 )
-
+    rendered_tasks = []
     for task in tasks:
-        row = []
+        rendered_task = []
         if not short:
-            row.append(str(task.id))
-            row.append(render_project(task.project_id, projects))
-        row.append(render_datetime(task))
-        row.append("[bold bright_white]" + task.content + "[/bold bright_white]")
-        row.append(priority_colors[task.priority])
-        row.append(", ".join(render_labels(label_ids=task.label_ids, labels=labels)))
-        table.add_row(*row)
-
-    return table
+            rendered_task.append(str(task.id))
+            rendered_task.append(render_project(task.project_id, projects))
+        rendered_task.append(render_datetime(task))
+        rendered_task.append(task.content)
+        rendered_task.append(priority_colors[task.priority])
+        rendered_task.append(", ".join(render_labels(label_ids=task.label_ids, labels=labels)))
+        rendered_tasks.append(rendered_task)    
+    return rendered_tasks
 
 
 def render_datetime(task):

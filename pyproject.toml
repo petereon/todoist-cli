@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "todoist-cli"
-version = "0.1.4"
+version = "0.1.5"
 description = "A CLI tool for Todoist"
 authors = ["Peter Vyboch <pvyboch1@gmail.com>"]
 license = "MIT"
@@ -11,9 +11,9 @@ rich = "^12.5.1"
 todoist-api-python = "^1.1.1"
 pytz = "^2022.1"
 prompt-toolkit = "^3.0.30"
-cutie = "^0.2.2"
 ordered-set = "^4.1.0"
 typer = "0.3.2"
+pytui = {git = "https://github.com/petereon/pytui.git"}
 
 [tool.poetry.dev-dependencies]
 Nuitka = "^1.0.1"
