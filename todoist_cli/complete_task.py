@@ -1,5 +1,5 @@
 from todoist_cli.list_tasks import render_tasks
-import pytui
+import beaupy
 
 
 def select_task(tasks, labels, projects, console):
@@ -19,4 +19,4 @@ def select_task(tasks, labels, projects, console):
         task_repr = ' '.join(task)
         task_strings.append(task_repr)
 
-    return int([task[0] for task in rendered_tasks][pytui.select(task_strings)])
+    return int([task[0] for task in rendered_tasks][beaupy.select(task_strings, return_index=True)])

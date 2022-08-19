@@ -2,6 +2,7 @@
 
 from typing import List, Optional
 import typer
+import beaupy
 from rich.console import Console
 from todoist_api_python.api import TodoistAPI
 from todoist_cli.complete_task import select_task
@@ -105,14 +106,14 @@ def new_task(
         projects_response = api.get_projects()
 
     if interactive and not content:
-        content = typer.prompt("Provide content for the task")
+        content = beaupy.prompt("Provide content for the task")
 
     if interactive and not description:
-        description = typer.prompt("Provide description for the task", default="")
+        description = beaupy.prompt("Provide description for the task")
 
     if interactive and not date:
-        date = typer.prompt(
-            "Provide date (any datestring that Todoist handles works)", default=""
+        date = beaupy.prompt(
+            "Provide date (any datestring that Todoist handles works)"
         )
 
     task_metadata = preprocess_task_metadata(

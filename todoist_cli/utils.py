@@ -1,4 +1,4 @@
-import pytui
+import beaupy
 
 
 def read_and_close(f):
@@ -13,8 +13,8 @@ def get_token():
     home = os.getenv("HOME")
     path = f"{home}/.todoist_token"
     if not os.getenv("TODOIST_API_TOKEN") and not os.path.exists(path):
-        token = pytui.prompt("Todoist API token:", secure=True)
-        if pytui.confirm("Save to file?"):
+        token = beaupy.prompt("Todoist API token:", secure=True)
+        if beaupy.confirm("Save to file?"):
 
             print(f"Saving the token to {path}")
             f = open(path, "w")

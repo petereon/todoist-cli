@@ -13,6 +13,18 @@ docs = ["sphinx-notfound-page", "zope.interface", "sphinx", "furo"]
 dev = ["cloudpickle", "pre-commit", "sphinx-notfound-page", "sphinx", "furo", "zope.interface", "pytest-mypy-plugins", "mypy", "six", "pytest (>=4.3.0)", "pympler", "hypothesis", "coverage[toml] (>=5.0.2)"]
 
 [[package]]
+name = "beaupy"
+version = "1.0.0"
+description = "A library of elements for interactive TUIs in Python"
+category = "main"
+optional = false
+python-versions = ">=3.7.8,<4.0.0"
+
+[package.dependencies]
+readchar = ">=3.1.0,<4.0.0"
+rich = ">=12.5.1,<13.0.0"
+
+[[package]]
 name = "certifi"
 version = "2022.6.15"
 description = "Python package for providing Mozilla's CA Bundle."
@@ -183,25 +195,6 @@ optional = false
 python-versions = ">=3.6"
 
 [[package]]
-name = "pytui"
-version = "0.1.0"
-description = 'A library of elements for interactive TUIs in Python'
-category = "main"
-optional = false
-python-versions = '^3.7.8'
-develop = false
-
-[package.dependencies]
-readchar = "^3.1.0"
-rich = "^12.5.1"
-
-[package.source]
-type = "git"
-url = "https://github.com/petereon/pytui.git"
-reference = "master"
-resolved_reference = "be3cf1fbdd24477e725433c41d9585193c1c959c"
-
-[[package]]
 name = "pytz"
 version = "2022.1"
 description = "World timezone definitions, modern and historical"
@@ -358,12 +351,16 @@ python-versions = "*"
 [metadata]
 lock-version = "1.1"
 python-versions = ">=3.10,<3.11"
-content-hash = "005d2422bbfa4e41d4170c5debf3e03b09399fde7665fb1b1d86496ba5d92eb9"
+content-hash = "641551bc218e86af44c4007fd8f8153458228b195244b56dd3f819b5d75850a7"
 
 [metadata.files]
 attrs = [
     {file = "attrs-21.4.0-py2.py3-none-any.whl", hash = "sha256:2d27e3784d7a565d36ab851fe94887c5eccd6a463168875832a1be79c82828b4"},
     {file = "attrs-21.4.0.tar.gz", hash = "sha256:626ba8234211db98e869df76230a137c4c40a12d72445c45d5f5b716f076e2fd"},
+]
+beaupy = [
+    {file = "beaupy-1.0.0-py3-none-any.whl", hash = "sha256:92cf899af034484d539a355c679ecb67e9d261f836cabaffb244cd8b3f0570b7"},
+    {file = "beaupy-1.0.0.tar.gz", hash = "sha256:f01de24fd4e388300fb9e7e19aa79d2051709f09a77ab086583267d249e01989"},
 ]
 certifi = [
     {file = "certifi-2022.6.15-py3-none-any.whl", hash = "sha256:fe86415d55e84719d75f8b69414f6438ac3547d2078ab91b67e779ef69378412"},
@@ -467,7 +464,6 @@ pygments = [
     {file = "Pygments-2.12.0-py3-none-any.whl", hash = "sha256:dc9c10fb40944260f6ed4c688ece0cd2048414940f1cea51b8b226318411c519"},
     {file = "Pygments-2.12.0.tar.gz", hash = "sha256:5eb116118f9612ff1ee89ac96437bb6b49e8f04d8a13b514ba26f620208e26eb"},
 ]
-pytui = []
 pytz = [
     {file = "pytz-2022.1-py2.py3-none-any.whl", hash = "sha256:e68985985296d9a66a881eb3193b0906246245294a881e7c8afe623866ac6a5c"},
     {file = "pytz-2022.1.tar.gz", hash = "sha256:1e760e2fe6a8163bc0b3d9a19c4f84342afa0a2affebfaa84b01b978a02ecaa7"},

@@ -1,4 +1,4 @@
-import pytui
+import beaupy
 
 priority_to_num = {
     "P1": 4,
@@ -25,7 +25,7 @@ def find_label_ids(labels, labels_response, interactive):
         all_labels = ["@" + label.name for label in labels_response]
         labels = [
             all_labels[i].replace("@", "")
-            for i in pytui.select_multiple(all_labels)
+            for i in beaupy.select_multiple(all_labels, return_indices=True)
         ]
     for label in labels_response:
         if label.name in labels:
@@ -33,7 +33,7 @@ def find_label_ids(labels, labels_response, interactive):
             label_ids.append(label.id)
     if labels:
         print("\nLabel(s) not found: {}".format(", ".join(labels)))
-        if not pytui.confirm(
+        if not beaupy.confirm(
             "Do you want to continue without labels {}".format(", ".join(labels))
         ):
             raise Exception("Label(s) not found: {}".format(", ".join(labels)))
@@ -45,13 +45,13 @@ def find_project_id(project, projects_response, interactive):
     if interactive and not project:
         print("\nSelect a project:")
         all_projects = ["#" + project.name for project in projects_response]
-        project = all_projects[pytui.select(all_projects)].replace("#", "")
+        project = all_projects[beaupy.select(all_projects, return_index=True)].replace("#", "")
     for project_ in projects_response:
         if project == project_.name:
             project_id = project_.id
     if project and not project_id:
         print("\nProject not found: {}".format(project))
-        if not pytui.confirm("Do you want to continue with no project"):
+        if not beaupy.confirm("Do you want to continue with no project"):
             raise Exception("Project not found: {}".format(project))
     return project_id
 
@@ -60,9 +60,9 @@ def find_priority(priority, priority_to_num, interactive):
     priorities = [None] + list(priority_to_num.keys())
     if not priority and interactive:
         print("\nSelect a priority:")
-        priority = priorities[pytui.select(priorities)]
+        priority = priorities[beaupy.select(priorities, return_index=True)]
     if priority and priority.upper() not in priorities:
         print("\nInvalid priority: {}".format(priority))
-        if not pytui.confirm("Do you want to continue with no priority"):
+        if not beaupy.confirm("Do you want to continue with no priority"):
             raise Exception("Invalid priority: {}".format(priority))
     return priority_to_num.get(priority)
