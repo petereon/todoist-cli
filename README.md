@@ -1,8 +1,9 @@
 # Todoist CLI
 
 ## DISCLAIMER
-I made this for my personal need and did not bother to write **NO TESTS** yet, so **PLEASE BE CAREFUL** not to obliterate your Todoist in some way. Ideally create tasks with CLI specific label so that you can at least identify, filter and delete them somewhat efficiently would something
-unexpected or sad happen. This software **MIT licensed**, which has implications towards the extent of my liability for any and all damages arising from use.
+I made this for my personal needs and there are **NO TESTS** as of yet, so **PLEASE BE CAREFUL** not to obliterate your Todoist in some way. `todoist-cli` is limited to creating, listing and completing tasks and deliberately abstracts more complex operations away. My general recommendation is to create tasks with CLI specific label, so that you can at least identify or even filter and delete the tasks somewhat efficiently should something inconvenient happen.
+
+This software is distributed under **MIT license**.
 
 ---
 
