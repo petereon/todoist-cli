@@ -138,6 +138,9 @@ def new_task(
 @app.command(name="complete")
 def complete_task(
     task_id: Optional[int] = typer.Argument(None, help="ID of the task to complete"),
+    filter: Optional[str] = typer.Option(
+        "(today|overdue)", "--filter", "-f", help="Filter for tasks e.g. '(overdue|today)'"
+    ),
     interactive: Optional[bool] = typer.Option(
         True,
         "-i/-n",
@@ -150,9 +153,12 @@ def complete_task(
     if not task_id:
         if interactive:
             with console.status("Fetching info from API..."):
-                tasks_response = api.get_tasks(filter="(today|overdue)")
+                tasks_response = api.get_tasks(filter=filter)
                 labels_response = api.get_labels()
                 projects_response = api.get_projects()
+            if not tasks_response:
+                console.print(f"No tasks to complete given the filter={filter}")
+                exit(1)
             task_id = select_task(
                 tasks=tasks_response,
                 labels=labels_response,
@@ -160,6 +166,9 @@ def complete_task(
                 console=console,
             )
 
+            if task_id is None:
+                console.print("No task selected, exiting...")
+                exit(0)
         else:
             raise Exception("No task ID provided")
     with console.status("Completing task..."):

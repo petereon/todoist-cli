@@ -10,7 +10,7 @@ def select_task(tasks, labels, projects, console):
         orderings=["t"],
         short=False,
     )
-    
+
     max_len_content = max([len(task[3]) for task in rendered_tasks])
     task_strings = []
     for task in rendered_tasks:
@@ -18,5 +18,10 @@ def select_task(tasks, labels, projects, console):
         task[2] = task[2] + (25 - len(task[2])) * ' '
         task_repr = ' '.join(task)
         task_strings.append(task_repr)
+    
+    selected = beaupy.select(task_strings, return_index=True)
 
-    return int([task[0] for task in rendered_tasks][beaupy.select(task_strings, return_index=True)])
+    if selected is None:
+        return None
+    else:
+        return int([task[0] for task in rendered_tasks][selected])
