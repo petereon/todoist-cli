@@ -41,6 +41,7 @@ $ complete [OPTIONS] [TASK_ID]
 
 **Options**:
 
+* `-f, --filter TEXT`: Filter for tasks e.g. '(overdue|today)' [default: '(overdue|today)']
 * `-i, --interactive / -n, --no-interactive`: Interactive mode  [default: True]
 * `--help`: Show this message and exit.
 
