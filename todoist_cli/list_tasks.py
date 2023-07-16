@@ -6,33 +6,10 @@ from rich.console import ConsoleRenderable
 from rich.table import Table
 
 priority_colors = {
-    4: "[bold red1]P1[/bold red1]",
-    3: "[bold orange1]P2[/bold orange1]",
-    2: "[blue1]P3[/blue1]",
-    1: "P4",
-}
-
-color_format = {
-    30: "[deep_pink4]{}[/deep_pink4]",
-    31: "[red1]{}[/red1]",
-    32: "[orange1]{}[/orange1]",
-    33: "[gold1]{}[/gold1]",
-    34: "[dark_olive_green3]{}[/dark_olive_green3]",
-    35: "[chartreuse3]{}[/chartreuse3]",
-    36: "[green3]{}[/green3]",
-    37: "[dark_turquoise]{}[/dark_turquoise]",
-    38: "[deep_sky_blue3]{}[/deep_sky_blue3]",
-    39: "[deep_sky_blue1]{}[/deep_sky_blue1]",
-    40: "[sky_blue2]{}[/sky_blue2]",
-    41: "[royal_blue1]{}[/royal_blue1]",
-    42: "[slate_blue1]{}[/slate_blue1]",
-    43: "[purple]{}[purple]",
-    44: "[plum3]{}[/plum3]",
-    45: "[deep_pink3]{}[/deep_pink3]",
-    46: "[pale_violet_red1]{}[/pale_violet_red1]",
-    47: "[grey35]{}[/grey35]",
-    48: "[grey74]{}[/grey74]",
-    49: "[tan]{}[/tan]",
+    4: "[bold red1]{}[/bold red1]",
+    3: "[bold orange1]{}[/bold orange1]",
+    2: "[blue1]{}[/blue1]",
+    1: "{}",
 }
 
 def tabularize_tasks(tasks, labels, projects, orderings: List[str], short):
@@ -75,10 +52,9 @@ def render_tasks(
             rendered_task.append(str(task.id))
             rendered_task.append(render_project(task.project_id, projects))
         rendered_task.append(render_datetime(task))
-        rendered_task.append(task.content)
-        rendered_task.append(priority_colors[task.priority])
-        rendered_task.append(", ".join(render_labels(label_ids=task.label_ids, labels=labels)))
-        rendered_tasks.append(rendered_task)    
+        rendered_task.append(priority_colors[task.priority].format(task.content))
+        rendered_task.append(", ".join(render_labels(labels=task.labels)))
+        rendered_tasks.append(rendered_task)
     return rendered_tasks
 
 
@@ -96,16 +72,11 @@ def render_datetime(task):
     return ""
 
 
-def render_labels(label_ids: List[int], labels):
-    labels_repr = []
-    for label in labels:
-        if label.id in label_ids:
-            labels_repr.append(color_format[label.color].format("@" + label.name))
-
-    return labels_repr
+def render_labels(labels: List[str]):
+    return [f'@{label}' for label in labels]
 
 
 def render_project(project_id, projects):
     for project in projects:
         if project.id == project_id:
-            return color_format[project.color].format("#" + project.name)
+            return f'[{project.color}]{project.name}[/{project.color}]'
